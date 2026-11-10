@@ -8,7 +8,7 @@ import "Telemetry.js" as Telemetry
 
 BarWidget {
     id: root
-    moduleName: "io.github.lukasmoriarty.applesiliconthermals"
+    moduleName: "io.github.kartikkabadi.omafan"
     property bool popupOpen: false
     property bool detailsOpen: false
     property bool dataValid: false

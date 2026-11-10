@@ -1,5 +1,5 @@
 {
-  "title": "Apple Silicon Thermals",
+  "title": "Omafan",
   "loading": "Reading hardware…",
   "stale": "Sensor readings expired. Manual controls are disabled until fresh data arrives.",
   "readFailed": "Could not read hardware sensors.",

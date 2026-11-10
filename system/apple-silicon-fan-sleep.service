@@ -1,5 +1,5 @@
 [Unit]
-Description=Release Apple Silicon fan override before sleep
+Description=Release Omafan manual fan control before sleep
 Before=sleep.target
 StopWhenUnneeded=yes
 

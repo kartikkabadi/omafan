@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">omafan — your fans, your settings</title>
+  <desc id="desc">Fan control and thermal monitoring for Apple Silicon on Omarchy. Linked and Separate controls. Both settings remembered. Local only.</desc>
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#f4f1e9" stroke-opacity=".025"/></pattern>
+    <path id="blade" d="M64 57C50 49 44 37 51 27C58 17 76 19 81 31C86 43 76 54 69 61Z"/>
+  </defs>
+  <rect x="1" y="1" width="1198" height="358" rx="28" fill="#101216" stroke="#292c32"/>
+  <rect x="1" y="1" width="1198" height="358" rx="28" fill="url(#grid)"/>
+  <path d="M0 300H1200" stroke="#e8ba5a" stroke-opacity=".12"/>
+  <g transform="translate(62 89) scale(1.4)">
+    <circle cx="64" cy="64" r="54" fill="#17191e" stroke="#e8ba5a" stroke-opacity=".25"/>
+    <circle cx="64" cy="64" r="46" fill="none" stroke="#e8ba5a" stroke-opacity=".1"/>
+    <g fill="#e8ba5a"><use href="#blade"/><use href="#blade" transform="rotate(120 64 64)"/><use href="#blade" transform="rotate(240 64 64)"/></g>
+    <circle cx="64" cy="64" r="10" fill="#17191e"/><circle cx="64" cy="64" r="5" fill="#f4f1e9"/>
+  </g>
+  <g font-family="'DejaVu Sans Mono', 'SFMono-Regular', Consolas, monospace">
+    <text x="284" y="70" fill="#9b9da4" font-size="12" letter-spacing="2">OMARCHY / APPLE SILICON / LINUX</text>
+    <text x="278" y="166" fill="#f4f1e9" font-size="88" font-weight="700" letter-spacing="-5">omafan<tspan fill="#e8ba5a">.</tspan></text>
+    <text x="284" y="207" fill="#e8ba5a" font-size="22">Your fans. Your settings.</text>
+    <text x="284" y="240" fill="#a9abb3" font-size="15">Fan control &amp; thermal monitoring for Apple Silicon on Omarchy.</text>
+    <g font-size="11" letter-spacing="1" fill="#d0d1d6">
+      <text x="284" y="278">LINKED + SEPARATE</text>
+      <text x="503" y="278">REMEMBERS BOTH</text>
+      <text x="708" y="278">LOCAL ONLY</text>
+    </g>
+    <text x="37" y="334" fill="#72767f" font-size="11">FIXED RPM / PERSISTENT PROFILES / LIVE TELEMETRY</text>
+    <text x="1161" y="334" text-anchor="end" fill="#72767f" font-size="11">MIT LICENSED</text>
+  </g>
+  <g fill="#e8ba5a"><circle cx="482" cy="274" r="2"/><circle cx="686" cy="274" r="2"/></g>
+</svg>

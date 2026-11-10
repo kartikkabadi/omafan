@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "id": "io.github.lukasmoriarty.applesiliconthermals",
-  "name": "Apple Silicon Thermals",
-  "version": "2.5.1",
-  "author": "LukasM",
+  "id": "io.github.kartikkabadi.omafan",
+  "name": "Omafan",
+  "version": "3.0.0",
+  "author": "Kartik (@kartikkabadi)",
   "license": "MIT",
-  "description": "Apple Silicon thermal monitoring with optional supervised manual fan control",
+  "description": "Omarchy fan control and thermal monitoring for Apple Silicon Linux",
   "kinds": [
     "bar-widget"
   ],
@@ -13,8 +13,8 @@
     "barWidget": "BarWidget.qml"
   },
   "barWidget": {
-    "displayName": "Apple Silicon Thermals",
-    "description": "Thermal monitoring and fan control for Apple Silicon Macs",
+    "displayName": "Omafan",
+    "description": "Omarchy fan control and thermal monitoring for Apple Silicon Linux",
     "category": "Hardware",
     "allowMultiple": false,
     "defaultSection": "right"

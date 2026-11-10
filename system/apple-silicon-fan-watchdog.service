@@ -1,5 +1,5 @@
 [Unit]
-Description=Apple Silicon persistent fan control supervisor
+Description=Omafan persistent fan control supervisor
 After=systemd-tmpfiles-setup.service
 Before=sleep.target shutdown.target
 

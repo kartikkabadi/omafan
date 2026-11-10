@@ -1,0 +1,23 @@
+name: Feature request
+description: Suggest an Omafan improvement.
+title: "[Feature]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: Explain what you are trying to do and what currently gets in the way.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Describe the interaction or result you would expect. Mention alternatives if useful.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Hardware or compatibility context
+      description: Optional. Include relevant Mac model and software versions. For control features, describe how the proposal should behave during Auto, restart or a safety pause. Do not include private dumps.

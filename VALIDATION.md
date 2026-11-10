@@ -1,3 +1,20 @@
+# Omafan 3.0.0 rebrand — 10 November 2026
+
+- Rebranded the project and widget to Omafan under `kartikkabadi/omafan`.
+  Canonical plugin ID: `io.github.kartikkabadi.omafan`.
+- Preserved the full upstream and continuation history, original MIT copyright,
+  explicit attribution, and a history-compatible move notice for the old fork.
+- Added project artwork, focused user/developer guides, issue forms, private
+  security-report guidance and a changelog.
+- Both remembered profiles and the existing privileged controller/storage names
+  remain compatible. Only display metadata and documentation changed; fan
+  control, persistence schemas, safety and animation behavior are unchanged.
+- All 211 Python tests and 34 JavaScript tests pass locally. Markdown references,
+  SVG XML, plugin manifest and shell syntax checks pass. Hardware checks and
+  limits from the preceding reviews remain applicable.
+
+---
+
 # Version 2.5.1 final full review — 10 November 2026
 
 Reviewed the broker, telemetry/helper, all QML components, install/remove flows,

@@ -1,0 +1,56 @@
+name: Bug report
+description: Report a reproducible Omafan problem.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For security vulnerabilities, follow [SECURITY.md](https://github.com/kartikkabadi/omafan/blob/main/SECURITY.md) and report privately.
+        Review all output before posting. Do not attach credentials, private environment dumps or a complete system journal.
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include versions you know; write "unknown" rather than collecting a broad system dump.
+      value: |
+        Omafan version or commit:
+        Mac model:
+        Kernel:
+        Omarchy:
+        Quickshell:
+        Qt:
+        Monitoring only or optional fan-control service:
+        Fresh install or upgrade from an older plugin:
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Give a minimal sequence. Mention Auto, Linked or Separate, and whether restart, reboot or sleep is involved.
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+      description: Explain what should happen and what happens instead. Include the exact visible error when relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: broker_status
+    attributes:
+      label: Read-only broker status
+      description: |
+        If optional control is installed, run `/usr/local/libexec/apple-silicon-fan-control status` as your normal user, without sudo.
+        Redact account IDs, boot IDs and any personal information before posting. If no broker is installed, say so.
+      render: json
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Relevant error excerpt or screenshot
+      description: Optional. Include only the lines around the failure and redact usernames, private paths and unrelated data. No automatic diagnostic collection is needed.
