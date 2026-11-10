@@ -44,6 +44,17 @@ Existing AppleSiliconThermals users should follow the
 [migration guide](docs/MIGRATION.md) to replace the old widget without losing
 saved profiles or running duplicate controls.
 
+## Three ways to run your fans
+
+| Linked | Separate | Auto |
+| :---: | :---: | :---: |
+| [![Linked controls](assets/screenshots/linked.png)](assets/screenshots/linked.png) | [![Separate fan controls](assets/screenshots/separate.png)](assets/screenshots/separate.png) | [![Firmware Auto control](assets/screenshots/auto.png)](assets/screenshots/auto.png) |
+| One saved target for both fans. | Each fan keeps its own saved speed. | Firmware manages cooling. |
+
+Screenshots show Omafan running on the tested M1 Pro. Click an image for its
+full-size view. Linked and Separate are the two manual layouts; Auto is the
+third control view.
+
 ## Compatibility and limits
 
 Requires Python 3.10+ at `/usr/bin/python3`, `macsmc_hwmon`, and Omarchy's

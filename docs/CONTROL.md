@@ -115,3 +115,9 @@ exposes button names, selected states and activation actions to assistive
 technology. English strings are supplied; the selected Omarchy language falls
 back to English until a matching catalog is contributed. Sensor/model labels
 are plain text.
+
+## Screenshots
+
+- [Linked — one shared target](../assets/screenshots/linked.png)
+- [Separate — individual fan targets](../assets/screenshots/separate.png)
+- [Auto — firmware cooling](../assets/screenshots/auto.png)

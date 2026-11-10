@@ -9,6 +9,15 @@
 - Both remembered profiles and the existing privileged controller/storage names
   remain compatible. Only display metadata and documentation changed; fan
   control, persistence schemas, safety and animation behavior are unchanged.
+- Migrated the installed user plugin and its exact bar entry to the new ID and
+  canonical Git remote, with private backups outside plugin discovery. Root
+  controller paths and both saved profiles were retained. Only service display
+  descriptions were refreshed; the controller was not restarted by the rebrand.
+- At the user's request, captured real Linked, Separate and Auto views. Separate
+  restored 2300/2500, Auto retained both profiles, and Manual restored Linked/Max
+  6241 afterward (hardware targets 5779/6241), with no control or preference error.
+  This also physically exercises the two-profile round trip. Screenshots are
+  cropped to the application panel and contain no surrounding desktop content.
 - All 211 Python tests and 34 JavaScript tests pass locally. Markdown references,
   SVG XML, plugin manifest and shell syntax checks pass. Hardware checks and
   limits from the preceding reviews remain applicable.
