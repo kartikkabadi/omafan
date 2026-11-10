@@ -51,6 +51,16 @@ test('unavailable permission never enables controls', () => {
   assert.equal(parse({control_available: false}).controlEnabled, false);
   assert.equal(parse({control_available: 'true'}).controlEnabled, false);
 });
+test('fractional hardware limits cannot enable integer RPM controls', () => {
+  for (const field of ['min', 'max']) {
+    const fans = fixture().fans;
+    fans[0][field] += 0.5;
+    assert.equal(parse({fans}).controlEnabled, false);
+  }
+  for (const field of ['fan_min', 'fan_max']) {
+    assert.equal(parse({[field]: fixture()[field] + 0.5}).controlEnabled, false);
+  }
+});
 test('legacy or malformed persistence capability cannot enable lasting controls', () => {
   for (const persistent of [false, null, undefined, 'true', 1])
     assert.equal(parse({persistent}).controlEnabled, false);

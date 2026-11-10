@@ -1,3 +1,25 @@
+# Omafan 3.0.1 submission review — 10 November 2026
+
+- Reviewed the broker, telemetry/validation, QML controls, service units, sudo
+  policy, installer/removal paths, saved profiles, attribution and listing assets.
+- Hardened runtime trust checks to inspect intermediate symlink hops, including
+  a detour through a writable directory which resolves back into a secure path.
+- Tightened schema and health timestamp validation. Unsupported manual fan
+  counts/indices now fail before manual target writes; Auto recovery still covers
+  every discovered fan. Fractional hardware limits cannot enable UI controls.
+- Added isolated regressions for these cases. Saved-profile schema and memory
+  semantics are unchanged; no host fan target or preference was written by review.
+- Local verification: 219 Python tests (including QML/motion cases), 35 JavaScript
+  tests, shell syntax, Python compilation, manifest validation, service-unit
+  verification and whitespace checks.
+- The revised telemetry reads the physical M1 Pro's active Linked/Max preference
+  correctly: saved 6241 RPM, driver targets 5779/6241, remembered Separate
+  2300/2500, with no preference/control error. Historical hardware-write checks
+  below describe their original revisions. Other models and physical reboot,
+  suspend and hibernate remain unverified.
+
+---
+
 # Omafan 3.0.0 rebrand — 10 November 2026
 
 - Rebranded the project and widget to Omafan under `kartikkabadi/omafan`.

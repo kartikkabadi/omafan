@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "id": "io.github.kartikkabadi.omafan",
-  "name": "Omafan",
-  "version": "3.0.0",
+  "name": "Omafan (Apple Silicon)",
+  "version": "3.0.1",
   "author": "Kartik (@kartikkabadi)",
   "license": "MIT",
-  "description": "Omarchy fan control and thermal monitoring for Apple Silicon Linux",
+  "description": "Apple Silicon fan monitoring and control for Omarchy, with Linked/Separate sliders and remembered profiles.",
   "kinds": [
     "bar-widget"
   ],

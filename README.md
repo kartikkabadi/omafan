@@ -3,8 +3,8 @@
 # Omafan
 
 [![Tests](https://github.com/kartikkabadi/omafan/actions/workflows/tests.yml/badge.svg)](https://github.com/kartikkabadi/omafan/actions/workflows/tests.yml)
-[![MIT license](https://img.shields.io/badge/license-MIT-e8ba5a)](LICENSE)
-[![Omarchy](https://img.shields.io/badge/built_for-Omarchy-101216)](https://omarchy.org)
+[![MIT license](https://img.shields.io/badge/license-MIT-8d8d8d)](LICENSE)
+[![Omarchy](https://img.shields.io/badge/built_for-Omarchy-101010)](https://omarchy.org)
 
 Fan monitoring and optional persistent fan control for **Apple Silicon Macs
 running Linux and Omarchy**. Omafan lives in your bar, reads the local
@@ -44,6 +44,23 @@ Existing AppleSiliconThermals users should follow the
 [migration guide](docs/MIGRATION.md) to replace the old widget without losing
 saved profiles or running duplicate controls.
 
+## Remove
+
+If manual control is installed, release the fans and remove the optional backend
+**before** removing the widget:
+
+```bash
+cd ~/.config/omarchy/plugins/io.github.kartikkabadi.omafan
+./uninstall.sh
+omarchy plugin disable io.github.kartikkabadi.omafan
+omarchy plugin remove io.github.kartikkabadi.omafan
+```
+
+Monitoring-only installations need just the last two commands. The uninstaller
+verifies firmware Auto before removing the controller and active saved setting;
+upgrade backups remain. Removing just the widget leaves an installed controller
+and its saved setting running. [Full removal guide](docs/INSTALL.md#remove).
+
 ## Three ways to run your fans
 
 | Linked | Separate | Auto |
@@ -53,7 +70,7 @@ saved profiles or running duplicate controls.
 
 Screenshots show Omafan running on the tested M1 Pro. Click an image for its
 full-size view. Linked and Separate are the two manual layouts; Auto is the
-third control view.
+third control view. [Artwork and screenshot provenance](docs/MEDIA.md).
 
 ## Compatibility and limits
 

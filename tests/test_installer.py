@@ -59,6 +59,7 @@ class InstallationBoundaryTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         self.namespace = runpy.run_path(str(ROOT / 'system/install-path-safety.py'), run_name='installer_boundary_fixture')
+        self.runtime_trust = runpy.run_path(str(ROOT / 'thermal.py'), run_name='runtime_boundary_fixture')['trusted_broker']
         self.non_root_owned = set()
         self.real_lstat = os.lstat
         self.real_stat = os.stat
@@ -74,12 +75,14 @@ class InstallationBoundaryTests(unittest.TestCase):
             fields[0] &= ~0o022  # Model secure ancestors outside the fixture.
         return os.stat_result(fields)
 
-    def verify(self, path, directory=False, private_config=False):
+    def verify(self, path, directory=False, private_config=False, runtime=False):
         # Pathlib 3.10 caches OS accessors, whereas newer versions look them
         # up dynamically. Patch the Path seam so the same ownership simulation
         # reaches the production guard on every supported Python version.
         with mock.patch.object(Path, 'lstat', lambda path, *args, **kwargs: self.metadata(self.real_lstat, path, *args, **kwargs)), \
                 mock.patch.object(Path, 'stat', lambda path, *args, **kwargs: self.metadata(self.real_stat, path, *args, **kwargs)):
+            if runtime:
+                return self.runtime_trust(path)
             return self.namespace['verify_install_destination'](path, directory=directory, private_config=private_config)
 
     def directory(self, name, mode=0o755):
@@ -142,6 +145,40 @@ class InstallationBoundaryTests(unittest.TestCase):
         self.assertEqual((logical / 'libexec').resolve(), final)
         with self.assertRaisesRegex(RuntimeError, 'group/world-writable'):
             self.verify(logical / 'libexec/broker')
+
+    def test_runtime_helper_allows_secure_directory_aliases(self):
+        logical = self.directory('usr/local')
+        final = self.directory('opt/secure/libexec')
+        target = final / 'broker'
+        target.write_text('#!/bin/false\n')
+        target.chmod(0o755)
+        (logical / 'libexec').symlink_to(final, target_is_directory=True)
+        self.assertTrue(self.verify(logical / 'libexec/broker', runtime=True))
+
+    def test_runtime_helper_rejects_hidden_writable_symlink_hop(self):
+        logical = self.directory('usr/local')
+        final = self.directory('opt/secure/libexec')
+        target = final / 'broker'
+        target.write_text('#!/bin/false\n')
+        target.chmod(0o755)
+        detour = self.directory('writable-detour', 0o777)
+        (detour / 'back-to-trusted').symlink_to(final, target_is_directory=True)
+        (logical / 'libexec').symlink_to(detour / 'back-to-trusted', target_is_directory=True)
+        self.assertEqual((logical / 'libexec').resolve(), final)
+        self.assertFalse(self.verify(logical / 'libexec/broker', runtime=True))
+        detour.chmod(0o755)
+        self.non_root_owned.add(detour)
+        self.assertFalse(self.verify(logical / 'libexec/broker', runtime=True))
+
+    def test_runtime_helper_refuses_final_aliases_and_directory_loops(self):
+        parent = self.directory('usr/local')
+        target = parent / 'broker'
+        target.write_text('#!/bin/false\n')
+        target.chmod(0o755)
+        (parent / 'alias').symlink_to(target)
+        self.assertFalse(self.verify(parent / 'alias', runtime=True))
+        (parent / 'loop').symlink_to(parent / 'loop', target_is_directory=True)
+        self.assertFalse(self.verify(parent / 'loop/broker', runtime=True))
 
     def test_existing_file_and_final_symlink_must_not_weaken_the_boundary(self):
         parent = self.directory('usr/local/libexec')

@@ -55,19 +55,38 @@ def read_number(path: Path, low: int, high: int) -> int | None:
 
 def trusted_broker(path: Path = BROKER) -> bool:
     try:
+        if not path.is_absolute():
+            return False
         info = path.lstat()
         if not stat.S_ISREG(info.st_mode) or info.st_uid != 0:
             return False
         if info.st_mode & 0o022 or not os.access(path, os.X_OK):
             return False
-        # Inspect physical ancestors too: a root-owned /usr/local/libexec
-        # symlink must not conceal a writable directory elsewhere.
-        for parent in (*path.parents, *path.resolve(strict=True).parents):
-            info = parent.stat()
-            if info.st_uid != 0 or info.st_mode & 0o022:
+        # Inspect each symlink hop, not only the final resolved path. An alias
+        # through a writable directory can be redirected after this check even
+        # when it currently points back into a secure root-owned directory.
+        pending = list(path.parents)
+        seen = set()
+        while pending:
+            parent = pending.pop()
+            if parent in seen:
+                continue
+            seen.add(parent)
+            if len(seen) > 256:
+                return False
+            pending.extend(parent.parents)
+            info = parent.lstat()
+            if info.st_uid != 0:
+                return False
+            if stat.S_ISLNK(info.st_mode):
+                target = Path(os.readlink(parent))
+                pending.append(target if target.is_absolute() else parent.parent / target)
+                if not parent.is_dir():
+                    return False
+            elif not stat.S_ISDIR(info.st_mode) or info.st_mode & 0o022:
                 return False
         return True
-    except OSError:
+    except (OSError, RuntimeError):
         return False
 
 
@@ -108,7 +127,7 @@ def broker_status() -> dict:
     data = response['data']
     mode = data.get('mode')
     ready = data.get('ready') is True
-    if data.get('schema_version') != 1 or mode not in ('auto', 'manual', 'unknown'):
+    if type(data.get('schema_version')) is not int or data['schema_version'] != 1 or mode not in ('auto', 'manual', 'unknown'):
         return {**unavailable, 'error': 'Control service protocol is incompatible.'}
     try:
         permitted = subprocess.run(

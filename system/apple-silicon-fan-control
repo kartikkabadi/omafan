@@ -234,6 +234,8 @@ class Hardware:
         indices = {index for index, _ in self.fans}
         if inputs != indices:
             raise RuntimeError('Some fans have no controllable target')
+        if len(indices) > 32 or any(not 1 <= index <= 64 for index in indices):
+            raise RuntimeError('Fan inventory is outside the supported manual-control range')
         individual = None
         if fans is not None:
             individual = {item['index']: item['rpm'] for item in validate_fans(fans)}
@@ -584,7 +586,7 @@ def load_state():
         blocked_reason = state.setdefault('restore_blocked_reason', None)
         wake_generation = state.setdefault('wake_generation', None)
         sleep_started_at = state.setdefault('sleep_started_at', 0)
-        if (state.get('schema_version') != 1 or mode not in ('auto', 'manual', 'unknown')
+        if (type(state.get('schema_version')) is not int or state['schema_version'] != 1 or mode not in ('auto', 'manual', 'unknown')
                 or type(expiry) not in (int, float) or not math.isfinite(expiry) or expiry < 0
                 or (owner is not None and (type(owner) is not int or owner < 0))
                 or not re.fullmatch(r'[0-9a-f]{32}', str(state.get('generation', '')))
@@ -618,7 +620,10 @@ def load_state():
 def watchdog_ready():
     try:
         health = read_json(RUNTIME / 'watchdog.json')
-        elapsed = clock() - float(health['updated_at'])
+        updated = health.get('updated_at')
+        if type(updated) not in (int, float) or not math.isfinite(updated) or updated < 0:
+            return False
+        elapsed = clock() - updated
         return health.get('boot_id') == boot_id() and 0 <= elapsed <= WATCHDOG_MAX_AGE
     except (OSError, ValueError, KeyError, TypeError, RuntimeError):
         return False

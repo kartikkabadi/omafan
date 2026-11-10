@@ -357,6 +357,17 @@ class TelemetryTests(unittest.TestCase):
         self.assertEqual(commands[0][-1], 'auto')
         self.assertIn('-l', commands[0])
 
+    def test_boolean_or_string_protocol_version_cannot_authorize_control(self):
+        for version in (True, False, '1', None, 1.0):
+            reply = {'ok': True, 'data': {'schema_version': version, 'mode': 'auto', 'ready': True}}
+            with self.subTest(version=version), patch.object(thermal, 'trusted_broker', return_value=True), \
+                    patch.object(thermal, 'command_result', return_value=reply), \
+                    patch.object(thermal.subprocess, 'run') as probe:
+                result = thermal.broker_status()
+                self.assertFalse(result['ready'])
+                self.assertFalse(result['permitted'])
+                probe.assert_not_called()
+
     def test_partial_policy_upgrade_preserves_auto_but_disables_per_fan(self):
         def check(command, **_kwargs):
             return subprocess.CompletedProcess(command, 0 if command[-1] == 'auto' else 1)

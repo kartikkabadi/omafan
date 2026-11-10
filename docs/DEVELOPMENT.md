@@ -21,8 +21,8 @@ motion cases run with Quickshell and Omarchy UI modules; they skip without those
 modules. Ubuntu 22.04/24.04 CI covers portable Python/JavaScript checks and
 structural service validation.
 
-The last full review before the 3.0.0 rebrand passed 211 Python tests and 34
-JavaScript tests, including local QML/motion cases. [VALIDATION.md](../VALIDATION.md)
+The 3.0.1 submission review passed 219 Python tests and 35 JavaScript tests,
+including local QML/motion cases. [VALIDATION.md](../VALIDATION.md)
 records historical revisions, CI links, physical checks and limits. Old entries
 refer to older behavior, including the superseded UI heartbeat lease. A passing
 fixture is not a physical reboot or suspend test.

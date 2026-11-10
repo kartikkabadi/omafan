@@ -260,6 +260,38 @@ class Fixture(unittest.TestCase):
             self.assertEqual(broker.load_state()['mode'], 'unknown')
             self.assertFalse(broker.watchdog_ready())
 
+    def test_watchdog_health_requires_a_finite_numeric_timestamp(self):
+        for value in (True, False, '100', None, -1, self.now + 1, self.now - broker.WATCHDOG_MAX_AGE - 1):
+            with self.subTest(value=value):
+                broker.atomic_json(self.runtime / 'watchdog.json', {'boot_id': 'fixture-boot', 'updated_at': value})
+                self.assertFalse(broker.watchdog_ready())
+        self.health()
+        self.assertTrue(broker.watchdog_ready())
+
+    def test_runtime_state_requires_integer_schema_version(self):
+        state = broker.load_state()
+        state['schema_version'] = True
+        broker.save(state)
+        self.assertEqual(broker.load_state()['mode'], 'unknown')
+
+    def test_unsupported_manual_inventory_keeps_auto_recovery_available(self):
+        for suffix, value in (('min', 1200), ('max', 6000), ('target', 2400), ('input', 2400)):
+            (self.hw / ('fan65_' + suffix)).write_text(str(value))
+        hardware = broker.Hardware()
+        with self.assertRaisesRegex(RuntimeError, 'inventory.*supported'):
+            hardware.planned_targets(rpm=4000)
+        self.assertEqual(self.writes, [])
+        hardware.automatic()
+        self.assertIn(('fan65_target', 0), self.writes)
+
+    def test_excess_manual_fan_count_is_rejected_before_register_writes(self):
+        for index in range(3, 34):
+            for suffix, value in (('min', 1200), ('max', 6000), ('target', 2400), ('input', 2400)):
+                (self.hw / f'fan{index}_{suffix}').write_text(str(value))
+        with self.assertRaisesRegex(RuntimeError, 'inventory.*supported'):
+            broker.Hardware().planned_targets(rpm=4000)
+        self.assertEqual(self.writes, [])
+
     def test_firmware_override_detection(self):
         broker.command('4000')
         hardware = broker.Hardware()

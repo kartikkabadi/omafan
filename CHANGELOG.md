@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.0.1 — 2026-11-10
+
+- Check every intermediate directory symlink before trusting the installed broker at runtime.
+- Reject non-integer broker schema versions and malformed watchdog-health timestamps.
+- Refuse unsupported manual fan inventories before target writes while retaining firmware Auto recovery for all discovered channels.
+- Reject fractional fan limits in the UI's integer RPM controls.
+- Add regression coverage for these boundaries, root README removal instructions, artwork provenance and a marketplace preview.
+- Qualify the marketplace name as Omafan (Apple Silicon) to distinguish unrelated same-named projects; the app branding and plugin ID are unchanged.
+- Retain the existing saved-profile format and independent Linked/Separate settings.
+
 ## 3.0.0 — 2026-11-10
 
 ### Omafan

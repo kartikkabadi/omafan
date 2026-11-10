@@ -41,13 +41,13 @@ function parse(raw) {
         if (index === null || Math.floor(index) !== index || indices[index]) { completeFans = false; continue }
         indices[index] = true
         fans.push({index: index, label: boundedText(fan.label, 64), rpm: number(fan.rpm, 0, 100000),
-            min: number(fan.min, 1, 100000), max: number(fan.max, 1, 100000), target: number(fan.target, 0, 100000)})
+            min: integer(fan.min, 1, 100000), max: integer(fan.max, 1, 100000), target: number(fan.target, 0, 100000)})
     }
     var sensors = ({}), keys = ["nand", "battery", "regulator", "wifi"]
     var sourceSensors = data.sensors && typeof data.sensors === "object" && !Array.isArray(data.sensors) ? data.sensors : ({})
     for (var j = 0; j < keys.length; j++) sensors[keys[j]] = number(sourceSensors[keys[j]], -100, 250)
     var warnings = Array.isArray(data.warnings) ? data.warnings.slice(0, 8).map(function(value) { return boundedText(value, 160) }).filter(function(value) { return value !== "" }) : []
-    var min = number(data.fan_min, 1000, 7999), max = number(data.fan_max, 1000, 7999)
+    var min = integer(data.fan_min, 1000, 7999), max = integer(data.fan_max, 1000, 7999)
     var error = boundedText(data.error, 80)
     var saved = savedTargets(data.saved_fans)
     var separateMemory = data.separate_memory === true
