@@ -1,4 +1,4 @@
-![Omafan — fan control for Apple Silicon on Omarchy](assets/omafan-banner.svg)
+![Omafan — fan control for Apple Silicon on Omarchy](assets/omafan-banner.png)
 
 # Omafan
 
